@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+body {
+  font-family: 'Lora', serif;
+}
+h1, h2, h3{
+  font-family: 'Playfair Display', serif;
+}
+.nav, .menu {
+  font-family: 'Inter', sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+/* Hide default date icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  padding-right: 16px;
+  cursor: pointer;
+  position: absolute;
+  right: 0.75rem;
+}
+
+.horizontal-scroll {
+  scroll-padding-left: 0px;
+}
