@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllNewsletters } from '../api/newsletter';
 import Navbar from '../components/NavBar';
 import Spinner from '../components/Spinner';
-import NewsletterList from '../components/NewsLetterList';
+import NewsletterList from '../components/NewsletterList';
 import DepartmentDetails from '../components/DepartmentDetails';
 import { ChevronRight, X } from 'lucide-react';
 
