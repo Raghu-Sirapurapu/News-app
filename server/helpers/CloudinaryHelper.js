@@ -1,22 +1,37 @@
 const cloudinary = require('../config/Cloudinary');
 
 
-const uploadToCloudinary = async (filepath,mimetype) =>{
-    try{
+const streamUpload = (buffer, mimetype) => {
+    return new Promise((resolve, reject) => {
         const resourceType = mimetype.startsWith('video') ? 'video' : 'image';
-        const result = await cloudinary.uploader.upload(filepath ,{ resource_type : resourceType });
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { resource_type: resourceType },
+            (error, result) => {
+                if (result) {
+                    resolve(result);
+                } else {
+                    reject(error);
+                }
+            }
+        );
+        uploadStream.end(buffer);
+    });
+};
 
-        //after upload return the url and public id given by cloudinary
+const uploadToCloudinary = async (fileBuffer, mimetype) => {
+    try {
+        const result = await streamUpload(fileBuffer, mimetype);
         return {
             url : result.secure_url,
             publicId : result.public_id,
-            type : resourceType
+            type : result.resource_type
         }
-    }catch(err){
+    } catch (err) {
         console.log(`Error while uploading to cloudinary ${err}`);
-        throw new Error(`Error while uploading to cloudinary`)
+        throw new Error(`Error while uploading to cloudinary`);
     }
-}
+};
+
 
 const deleteFromCloudinary = async (publicId) => {
   try {

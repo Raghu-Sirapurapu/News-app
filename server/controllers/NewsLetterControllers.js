@@ -35,13 +35,13 @@ const createNewsletter = async (req, res) => {
     if (req.files && req.files.length > 0) {
       // Upload to Cloudinary
       for (const file of req.files) {
-        const result = await uploadToCloudinary(file.path, file.mimetype);
+        const result = await uploadToCloudinary(file.buffer, file.mimetype);
         media.push({
           url: result.url,
           cloudinary_id: result.publicId,
           type: result.type // 'image' or 'video'
         });
-        fs.unlinkSync(file.path);
+        
       }
     }
 
@@ -102,7 +102,7 @@ const updateNewsletter = async (req, res) => {
           cloudinary_id: result.publicId,
           type: result.type,
         });
-        fs.unlinkSync(file.path);
+        
       }
     }
     updateFields.media = [...existingMedia, ...newMedia];

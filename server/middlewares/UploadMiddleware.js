@@ -1,16 +1,4 @@
-const multer = require('multer');
-const path = require('path');
-
-
-//storage image locally first
-const storage = multer.diskStorage({
-    destination : (req,res,cb) => {
-        cb(null,'uploads/')
-    },
-    filename : (req,file,cb)=>{
-        cb(null,file.fieldname+"-"+Date.now()+path.extname(file.originalname));
-    }
-});
+const multer = require('multer')
 
 const fileFilter = (req,file,cb) => {
     if(file.mimetype.startsWith('image') || file.mimetype.startsWith('video')){
@@ -20,6 +8,7 @@ const fileFilter = (req,file,cb) => {
     }
 }
 
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage,
