@@ -1,6 +1,6 @@
 import jntukLogo from './jntuk-logo.png'
 import fblogo from './facebook-logo.png'
-import bgimage from './default-news-bg.png'
+import bgimage from './default-news-bg.jpg'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
 import img3 from './img3.jpg'

@@ -25,7 +25,7 @@ const Newsletters = () => {
       <h2 className="text-2xl sm:text-3xl font-semibold text-black text-center mb-8">
         Latest Newsletters
       </h2>
-      <NewsletterList newsletters={newsletters} options={options} cols = {"grid-cols-1 md:grid-cols-2 lg:grid-cols-5"}/>
+      <NewsletterList newsletters={newsletters} options={options} cols = {"grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}/>
     </section>
   );
 };

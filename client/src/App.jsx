@@ -58,9 +58,8 @@ const App = () => {
           }
         />
       </Routes>
-      <ToastContainer />
+      <ToastContainer position='bottom-right'/>
     </div>
   )
 }
-
 export default App

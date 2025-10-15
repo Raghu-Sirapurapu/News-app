@@ -96,7 +96,7 @@ const NewslettersPage = () => {
             }`}
           >
             <NewsletterList newsletters={filteredNewsletters} options={options} cols = {`${
-              departmentFilter ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-5'
+              departmentFilter ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
             }`}/>
           </div>
 

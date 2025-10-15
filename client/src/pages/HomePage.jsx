@@ -9,7 +9,9 @@ const HomePage = () => {
     <div>
       <Navbar/>
       <Hero/>
-      <Newsletters/>
+      <div className='px-2 md:px-0 lg:px-12'>
+        <Newsletters/>
+      </div>
       <Footer/>
     </div>
   )

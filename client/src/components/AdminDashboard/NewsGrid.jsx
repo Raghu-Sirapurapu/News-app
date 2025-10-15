@@ -28,9 +28,10 @@ const NewsGrid = ({
             {item.media && item.media.length ? (
               item.media[0].type === 'video' ? (
                 <video
-                  src={item.media.url}
+                  src={item.media[0].url}
                   className="w-full h-full object-cover"
                   controls
+                  autoPlay
                   muted
                   loop
                   playsInline
