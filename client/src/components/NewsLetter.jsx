@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllNewsletters } from '../api/newsletter';
 import Navbar from '../components/NavBar';
-import NewsletterList from '../components/NewsLetterList';
+import NewsletterList from '../components/NewsletterList';
 
 const Newsletters = () => {
   const [newsletters, setNewsletters] = useState([]);
