@@ -74,7 +74,7 @@ const NewslettersPage = () => {
             onChange={(e) => setDepartmentFilter(e.target.value)}
             className="w-full px-4 py-2 border border-[#415a77] rounded-md bg-white text-black focus:outline-none focus:ring-1 focus:ring-black"
           >
-            <option value="">All Departments</option>
+            <option value="">All DEPARTMENTS</option>
             {departments.map((dep) => (
               <option key={dep} value={dep}>
                 {dep}

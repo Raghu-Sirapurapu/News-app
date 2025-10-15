@@ -148,7 +148,7 @@ const AdminDashboard = () => {
       news.content.toLowerCase().includes(pendingSearchTerm.toLowerCase());
 
     // Department filter
-    const matchesDepartment = pendingDepartmentFilter === '' || news.department === pendingDepartmentFilter;
+    const matchesDepartment = pendingDepartmentFilter === '' || news.department === pendingDepartmentFilter ;
 
     return matchesSearch && matchesDepartment;
   });
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
     const matchesSearch = news.title.toLowerCase().includes(approvedSearchTerm.toLowerCase()) ||
       news.content.toLowerCase().includes(approvedSearchTerm.toLowerCase());
 
-    const matchesDepartment = approvedDepartmentFilter === '' || news.department === approvedDepartmentFilter;
+    const matchesDepartment = approvedDepartmentFilter === '' || news.department === approvedDepartmentFilter ;
 
     return matchesSearch && matchesDepartment;
   });

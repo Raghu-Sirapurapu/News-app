@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 import MultipleFileUpload from '../components/MultipleFileUpload';
 const departments = [
-    'CSE', 'ECE', 'MECH', 'EEE', 'CIVIL',
-    'PE&PCE', 'MATHS', 'MANAGEMENT STUDIES', 'PHYSICS',
-    'CHEMISTRY', 'HSS', 'LIBRARY'
-  ];
+  'UNIVERSITY', 'CSE', 'ECE', 'MECH', 'EEE', 'CIVIL',
+  'PE&PCE', 'MATHS', 'MANAGEMENT STUDIES', 'PHYSICS',
+  'CHEMISTRY', 'HSS', 'LIBRARY'
+];
 const UploadPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

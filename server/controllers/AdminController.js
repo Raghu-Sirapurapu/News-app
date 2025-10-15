@@ -1,16 +1,25 @@
 const NewsLetter = require('../models/NewsLetter');
 const User = require('../models/User');
-const {deleteFromCloudinary} =require('../helpers/CloudinaryHelper')
+const { deleteFromCloudinary } = require('../helpers/CloudinaryHelper')
 // 1. Get all pending newsletters
 const getPendingNews = async (req, res) => {
   try {
-    const { role, department} = req.userInfo;
-    const query = { status : 'pending'};
-    if( role === 'admin'){
+    const { role, department } = req.userInfo;
+    const query = { status: 'pending' };
+    if (role === 'admin') {
       query.department = department;
     }
-    const pendingNews = await NewsLetter.find(query).populate('user', 'email');
-    res.json(pendingNews);
+    const pendingNews = await NewsLetter.find(query).populate('user', 'email').sort({ createdAt: -1 });
+    const universityPendingNews = await NewsLetter.find({ status: 'pending', department: 'UNIVERSITY' }).populate('user', 'email').sort({ createdAt: -1 });
+    if (role === 'admin') {
+      const combinedNews = [...pendingNews, ...universityPendingNews].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      res.json(combinedNews);
+    } else {
+      res.json(pendingNews)
+    }
+
   } catch (err) {
     console.error('Error fetching pending news:', err);
     res.status(500).json({ message: 'Failed to get pending news', error: err.message });
@@ -25,8 +34,17 @@ const getApprovedNews = async (req, res) => {
     if (role === 'admin') {
       query.department = department;
     }
-    const approvedNews = await NewsLetter.find(query).populate('user', 'email');
-    res.json(approvedNews);
+    const approvedNews = await NewsLetter.find(query).populate('user', 'email').sort({ createdAt: -1 });;
+    const universityApprovedNews = await NewsLetter.find({ status: 'approved', department: 'UNIVERSITY' }).populate('user', 'email').sort({ createdAt: -1 });;
+
+    if (role === 'admin') {
+      const combinedNews = [...approvedNews, ...universityApprovedNews].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      res.json(combinedNews);
+    } else {
+      res.json(approvedNews)
+    }
   } catch (err) {
     console.error('Error fetching approved news:', err);
     res.status(500).json({ message: 'Failed to get approved news', error: err.message });
@@ -38,18 +56,18 @@ const approveNews = async (req, res) => {
   try {
     const newsId = req.params.id;
     const user = req.userInfo;
-    
+
     const newsletter = await NewsLetter.findById(newsId);
-    if(!newsletter){
+    if (!newsletter) {
       return res.status(404).json({
-        message : 'Newsletter not found'
+        message: 'Newsletter not found'
       });
     }
 
     //If user is admin, restrict approval to thier department only
-    if(user.role === 'admin' && user.department !== newsletter.department){
+    if (user.role === 'admin' && user.department !== newsletter.department && newsletter.department !== "UNIVERSITY") {
       return res.status(403).json({
-        message : 'Can only approve news for own department'
+        message: 'Can only approve news for own department'
       });
     }
 
@@ -74,8 +92,8 @@ const rejectNews = async (req, res) => {
       return res.status(404).json({ message: 'Newsletter not found' });
     }
     //Restrict to department admin or super admin
-    if(user.role === 'admin' && user.department !== newsletterToDelete.department){
-      return res.status(403).json({message : 'Can only reject news of your own department'});
+    if (user.role === 'admin' && user.department !== newsletterToDelete.department) {
+      return res.status(403).json({ message: 'Can only reject news of your own department' });
     }
 
     // Delete media from Cloudinary if it exists
@@ -118,19 +136,19 @@ const makeAdmin = async (req, res) => {
     const userId = req.params.id;
 
     //Expect role and optional department in req body
-    const { role, department} = req.body;
-    
+    const { role, department } = req.body;
+
     //validate role
-    if(!['admin', 'superadmin'].includes(role)){
-       return res.status(400).json({
-        message : 'Invalid role specified'
-       });
+    if (!['admin', 'superadmin'].includes(role)) {
+      return res.status(400).json({
+        message: 'Invalid role specified'
+      });
     }
 
     //For admins , ensure department is provided 
-    if (role === 'admin' && !department){
+    if (role === 'admin' && !department) {
       return res.status(400).json({
-        message : 'Department is required for admin role'
+        message: 'Department is required for admin role'
       });
     }
 
@@ -169,7 +187,7 @@ const removeAdmin = async (req, res) => {
 const removeSuperAdmin = async (req, res) => {
   try {
     const userId = req.params.id;
-    const updated = await User.findByIdAndUpdate(userId, { role: 'user'}, { new: true });
+    const updated = await User.findByIdAndUpdate(userId, { role: 'user' }, { new: true });
     if (!updated) {
       return res.status(404).json({ message: 'User not found' });
     }
